@@ -25,12 +25,12 @@ public class FileEntity {
 	
 	
 	private String filePath;
-	
+	public String getFilePath() {
+		return filePath;
+	}
 	public FileEntity(String fileName,String fileType,String filePath) {
 		this.fileName=fileName;
 		this.fileType=fileType;
 		this.filePath=filePath;
 	}
-	
-	
 }

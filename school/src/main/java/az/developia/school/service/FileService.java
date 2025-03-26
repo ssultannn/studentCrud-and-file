@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,14 +16,14 @@ import az.developia.school.repository.FileRepository;
 
 @Service
 public class FileService {
-
-	private final String upload = "C:\\Users\\texno\\OneDrive\\Desktop\\Test";
+	@Value("${our.path}")
+	private String upload;
 
 	@Autowired
 	private FileRepository fileRepository;
 
 	public FileEntity uploadFile(MultipartFile file) throws IOException {
-		String filePath = upload + "\\" +  file.getOriginalFilename();
+		String filePath = upload + "\\" + file.getOriginalFilename();
 
 		Files.write(Paths.get(filePath), file.getBytes());
 
@@ -29,5 +31,11 @@ public class FileService {
 
 		return fileRepository.save(fileEntity);
 
+	}
+
+	public void deleteFile(String fileName) throws IOException {
+		FileEntity fileEntity=fileRepository.findByFileName(fileName);
+		Files.deleteIfExists(Paths.get(fileEntity.getFilePath()));
+		fileRepository.delete(fileEntity);
 	}
 }
