@@ -5,32 +5,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "files")
+@Table(name = "authorities")
 @Getter
 @Setter
 @NoArgsConstructor
-public class FileEntity {
+@AllArgsConstructor
+public class AuthorityEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String fileName;
-	
-	private String fileType;
-	
-	
-	private String filePath;
-	public String getFilePath() {
-		return filePath;
-	}
-	public FileEntity(String fileName,String fileType,String filePath) {
-		this.fileName=fileName;
-		this.fileType=fileType;
-		this.filePath=filePath;
-	}
+	private String username;
+	private String authority;
 }
