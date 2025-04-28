@@ -16,31 +16,36 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private AuthenticationManager authManager;
+	@Autowired
+	private AuthenticationManager authManager;
 
-    @Autowired
-    private az.developia.school.jwt.JwtUtil jwtUtil;
+	@Autowired
+	private az.developia.school.jwt.JwtUtil jwtUtil;
 
-    // Метод для логина
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
-        String password = body.get("password");
+	// Метод для логина
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+		String username = body.get("username");
+		String password = body.get("password");
 
-        // Аутентификация пользователя
-        Authentication authentication = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password));
+		// Аутентификация пользователя
+		Authentication authentication = authManager
+				.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        // Генерация JWT токена
-        String token = jwtUtil.generateToken(username);
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        return ResponseEntity.ok(response); // Отправляем токен в ответе
-    }
+		// Генерация JWT токена
+		String token = jwtUtil.generateToken(username);
+		Map<String, String> response = new HashMap<>();
+		response.put("token", token);
+		return ResponseEntity.ok(response); // Отправляем токен в ответе
+	}
 
+	// Метод для регистрации
+	@PostMapping("/register")
+	public void register(@RequestBody UserEntity userEntity) {
 
+		userService.register1(userEntity);
+	}
 }
